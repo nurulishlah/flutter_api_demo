@@ -18,34 +18,34 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text(appTitle),
         ),
-        body: FutureBuilder<List<Post>>(
-          future: fetchPosts(http.Client()),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Center(child: Text('${snapshot.hasError}'));
-            } else if (snapshot.hasData) {
-              return PostsList(
-                posts: snapshot.data!,
-              );
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          },
-        ),
-        // body: FutureBuilder<List<Photo>>(
-        //   future: fetchPhotos(http.Client()),
+        // body: FutureBuilder<List<Post>>(
+        //   future: fetchPosts(http.Client()),
         //   builder: (context, snapshot) {
         //     if (snapshot.hasError) {
         //       return Center(child: Text('${snapshot.hasError}'));
         //     } else if (snapshot.hasData) {
-        //       return PhotosList(
-        //         photos: snapshot.data!,
+        //       return PostsList(
+        //         posts: snapshot.data!,
         //       );
         //     } else {
         //       return const Center(child: CircularProgressIndicator());
         //     }
         //   },
         // ),
+        body: FutureBuilder<List<Photo>>(
+          future: Photo.fetchPhotos(http.Client()),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Center(child: Text('${snapshot.hasError}'));
+            } else if (snapshot.hasData) {
+              return PhotosList(
+                photos: snapshot.data!,
+              );
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
       ),
     );
   }

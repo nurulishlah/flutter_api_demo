@@ -3,18 +3,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-List<Photo> parsePhotos(String responseBody) {
-  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-  return parsed.map<Photo>((json) => Photo.parseJson(json)).toList();
-}
-
-Future<List<Photo>> fetchPhotos(http.Client client) async {
-  final response = await client
-      .get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
-
-  return compute(parsePhotos, response.body);
-}
-
 class Photo {
   final int albumId;
   final int id;
@@ -38,5 +26,17 @@ class Photo {
       url: data['url'] as String,
       thumbnailUrl: data['thumbnailUrl'] as String,
     );
+  }
+
+  static List<Photo> parsePhotos(String responseBody) {
+    final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<Photo>((json) => Photo.parseJson(json)).toList();
+  }
+
+  static Future<List<Photo>> fetchPhotos(http.Client client) async {
+    final response = await client
+        .get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
+
+    return compute(parsePhotos, response.body);
   }
 }

@@ -39,4 +39,11 @@ class Photo {
 
     return compute(parsePhotos, response.body);
   }
+
+  static Future<Photo> fetchPhoto(String id) async {
+    final response = await http
+        .get(Uri.parse('https://jsonplaceholder.typicode.com/photos/${id}'));
+
+    return Photo.parseJson(jsonDecode(response.body));
+  }
 }

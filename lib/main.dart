@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text(appTitle),
         ),
+        // List of posts
         // body: FutureBuilder<List<Post>>(
         //   future: fetchPosts(http.Client()),
         //   builder: (context, snapshot) {
@@ -32,15 +33,30 @@ class MyApp extends StatelessWidget {
         //     }
         //   },
         // ),
-        body: FutureBuilder<List<Photo>>(
-          future: Photo.fetchPhotos(http.Client()),
+
+        // List of photos
+        // body: FutureBuilder<List<Photo>>(
+        //   future: Photo.fetchPhotos(http.Client()),
+        //   builder: (context, snapshot) {
+        //     if (snapshot.hasError) {
+        //       return Center(child: Text('${snapshot.hasError}'));
+        //     } else if (snapshot.hasData) {
+        //       return PhotosList(
+        //         photos: snapshot.data!,
+        //       );
+        //     } else {
+        //       return const Center(child: CircularProgressIndicator());
+        //     }
+        //   },
+        // ),
+
+        body: FutureBuilder<Photo>(
+          future: Photo.fetchPhoto("5"),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(child: Text('${snapshot.hasError}'));
             } else if (snapshot.hasData) {
-              return PhotosList(
-                photos: snapshot.data!,
-              );
+              return Center(child: Text(snapshot.data!.title));
             } else {
               return const Center(child: CircularProgressIndicator());
             }

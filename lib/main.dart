@@ -1,4 +1,5 @@
 import 'package:api_demo/photo_model.dart';
+import 'package:api_demo/post_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,20 +18,34 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text(appTitle),
         ),
-        body: FutureBuilder<List<Photo>>(
-          future: fetchPhotos(http.Client()),
+        body: FutureBuilder<List<Post>>(
+          future: fetchPosts(http.Client()),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(child: Text('${snapshot.hasError}'));
             } else if (snapshot.hasData) {
-              return PhotosList(
-                photos: snapshot.data!,
+              return PostsList(
+                posts: snapshot.data!,
               );
             } else {
               return const Center(child: CircularProgressIndicator());
             }
           },
         ),
+        // body: FutureBuilder<List<Photo>>(
+        //   future: fetchPhotos(http.Client()),
+        //   builder: (context, snapshot) {
+        //     if (snapshot.hasError) {
+        //       return Center(child: Text('${snapshot.hasError}'));
+        //     } else if (snapshot.hasData) {
+        //       return PhotosList(
+        //         photos: snapshot.data!,
+        //       );
+        //     } else {
+        //       return const Center(child: CircularProgressIndicator());
+        //     }
+        //   },
+        // ),
       ),
     );
   }
@@ -50,6 +65,39 @@ class PhotosList extends StatelessWidget {
       itemCount: photos.length,
       itemBuilder: (context, index) {
         return Image.network(photos[index].thumbnailUrl);
+      },
+    );
+  }
+}
+
+class PostsList extends StatelessWidget {
+  const PostsList({Key? key, required this.posts}) : super(key: key);
+
+  final List<Post> posts;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: posts.length,
+      itemBuilder: (context, index) {
+        return Card(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              leading: const CircleAvatar(
+                child: Icon(Icons.article),
+              ),
+              title: Text(
+                posts[index].title,
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              subtitle: Text(
+                posts[index].body,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+            ),
+          ),
+        );
       },
     );
   }

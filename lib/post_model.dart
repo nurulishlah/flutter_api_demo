@@ -16,13 +16,13 @@ Future<List<Post>> fetchPosts(http.Client client) async {
 }
 
 class Post {
-  final int albumId;
+  final int userId;
   final int id;
   final String title;
   final String body;
 
   const Post({
-    required this.albumId,
+    required this.userId,
     required this.id,
     required this.title,
     required this.body,
@@ -30,7 +30,7 @@ class Post {
 
   factory Post.parseJson(Map<String, dynamic> data) {
     return Post(
-      albumId: data['albumId'] as int,
+      userId: data['userId'] as int,
       id: data['id'] as int,
       title: data['title'] as String,
       body: data['body'] as String,
